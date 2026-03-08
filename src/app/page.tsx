@@ -3,7 +3,7 @@
 import { useState, useRef, useMemo, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Search, ShoppingBag, LayoutGrid, Laptop, Mouse, HardDrive, Tag, Star, Percent, ArrowLeft, ArrowRight, X, Menu, Instagram, AtSign, Store } from "lucide-react";
+import { Search, ShoppingBag, LayoutGrid, Laptop, Mouse, HardDrive, ArrowLeft, ArrowRight, X, Menu, Instagram, AtSign, Store, Wallet } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import productsData from "@/data/products.json";
 import { useCart } from "@/context/CartContext";
@@ -66,17 +66,17 @@ export default function Home() {
       filtered = filtered.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.category.toLowerCase().includes(searchQuery.toLowerCase()));
     }
 
-    // 3. Side Filter (Produk Baru, Terlaris, Sedang Diskon)
-    // Because we use dummy data, we will simulate the logic:
-    if (activeFilter === "Produk Baru") {
-      // Simulate "New" by reversing the array or picking certain items
-      filtered = [...filtered].reverse();
-    } else if (activeFilter === "Terlaris") {
-      // Simulate "Best Seller" by sorting alphabetically or price
-      filtered = [...filtered].sort((a, b) => a.price - b.price);
-    } else if (activeFilter === "Sedang Diskon") {
-      // Filter items that have a "Promo" or "Diskon" badge
-      filtered = filtered.filter(p => p.badge && (p.badge.toLowerCase().includes("promo") || p.badge.toLowerCase().includes("diskon")));
+    // 3. Budget Filter
+    if (activeFilter === "2 jt an") {
+      filtered = filtered.filter(p => p.price >= 2000000 && p.price < 3000000);
+    } else if (activeFilter === "3 jt an") {
+      filtered = filtered.filter(p => p.price >= 3000000 && p.price < 4000000);
+    } else if (activeFilter === "4 jt an") {
+      filtered = filtered.filter(p => p.price >= 4000000 && p.price < 5000000);
+    } else if (activeFilter === "5 jt an") {
+      filtered = filtered.filter(p => p.price >= 5000000 && p.price < 6000000);
+    } else if (activeFilter === "Diatas 6 jt an") {
+      filtered = filtered.filter(p => p.price >= 6000000);
     }
 
     return filtered;
@@ -215,24 +215,16 @@ export default function Home() {
           </div>
 
           <div className="mt-8 space-y-1">
-            <button 
-              onClick={() => { setActiveFilter(activeFilter === "Produk Baru" ? "Semua" : "Produk Baru"); setCurrentPage(1); setIsMobileFilterOpen(false); }}
-              className={`w-full flex items-center gap-3 text-sm px-4 py-3 rounded-xl transition ${activeFilter === "Produk Baru" ? "bg-zinc-100 text-zinc-900 font-semibold" : "text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900 font-medium"}`}
-            >
-              <Star className="w-4 h-4" /> Produk Baru
-            </button>
-            <button 
-              onClick={() => { setActiveFilter(activeFilter === "Terlaris" ? "Semua" : "Terlaris"); setCurrentPage(1); setIsMobileFilterOpen(false); }}
-              className={`w-full flex items-center gap-3 text-sm px-4 py-3 rounded-xl transition ${activeFilter === "Terlaris" ? "bg-zinc-100 text-zinc-900 font-semibold" : "text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900 font-medium"}`}
-            >
-              <Tag className="w-4 h-4" /> Terlaris
-            </button>
-            <button 
-              onClick={() => { setActiveFilter(activeFilter === "Sedang Diskon" ? "Semua" : "Sedang Diskon"); setCurrentPage(1); setIsMobileFilterOpen(false); }}
-              className={`w-full flex items-center gap-3 text-sm px-4 py-3 rounded-xl transition ${activeFilter === "Sedang Diskon" ? "bg-red-50 text-red-600 font-semibold" : "text-zinc-500 hover:bg-zinc-50 hover:text-red-500 font-medium"}`}
-            >
-              <Percent className="w-4 h-4" /> Sedang Diskon
-            </button>
+            <h3 className="font-bold mb-4 text-zinc-900">Budget</h3>
+            {["2 jt an", "3 jt an", "4 jt an", "5 jt an", "Diatas 6 jt an"].map((budget) => (
+              <button 
+                key={budget}
+                onClick={() => { setActiveFilter(activeFilter === budget ? "Semua" : budget); setCurrentPage(1); setIsMobileFilterOpen(false); }}
+                className={`w-full flex items-center gap-3 text-sm px-4 py-3 rounded-xl transition ${activeFilter === budget ? "bg-zinc-100 text-zinc-900 font-semibold" : "text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900 font-medium"}`}
+              >
+                <Wallet className="w-4 h-4" /> {budget}
+              </button>
+            ))}
           </div>
           </div>
         </aside>
