@@ -3,7 +3,7 @@
 import { useState, useRef, useMemo, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Search, ShoppingBag, LayoutGrid, Laptop, Mouse, HardDrive, Tag, Star, Percent, ArrowLeft, ArrowRight, X } from "lucide-react";
+import { Search, ShoppingBag, LayoutGrid, Laptop, Mouse, HardDrive, Tag, Star, Percent, ArrowLeft, ArrowRight, X, Menu, Instagram, AtSign, Store } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import productsData from "@/data/products.json";
 import { useCart } from "@/context/CartContext";
@@ -27,6 +27,8 @@ export default function Home() {
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
 
   const [recommendedProducts, setRecommendedProducts] = useState(productsData.slice(0, 5));
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   useEffect(() => {
     // eslint-disable-next-line
@@ -107,8 +109,13 @@ export default function Home() {
     <main className="min-h-screen bg-white text-zinc-900 flex flex-col font-sans">
       {/* NAVBAR */}
       <header className="w-full bg-white sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
-        <div className="font-bold text-xl tracking-tighter flex items-center gap-2">
-          <Image src="/logo-altitude-comp.jpeg" alt="Altitude Comp" width={90} height={28} className="rounded-sm object-cover" />
+        <div className="flex items-center gap-4">
+          <button className="md:hidden" onClick={() => setIsMobileMenuOpen(true)}>
+            <Menu className="w-5 h-5 text-zinc-700" />
+          </button>
+          <div className="font-bold text-xl tracking-tighter flex items-center gap-2">
+            <Image src="/logo-altitude-comp.jpeg" alt="Altitude Comp" width={80} height={24} className="rounded-sm object-contain" />
+          </div>
         </div>
         <nav className="hidden md:flex gap-8 text-sm font-medium text-zinc-500">
           <Link href="/brands" className="text-zinc-900 hover:text-black transition">Merek</Link>
@@ -168,31 +175,38 @@ export default function Home() {
         
         {/* SIDEBAR */}
         <aside className="w-full md:w-64 flex-shrink-0">
-          <h3 className="font-bold mb-6">Kategori</h3>
-          <div className="space-y-1">
-            <button 
-              onClick={() => { setActiveCategory("All"); setCurrentPage(1); }}
+          <div className="flex items-center justify-between mb-2 md:mb-6">
+            <h3 className="font-bold text-lg">Filter Kategori</h3>
+            <button className="md:hidden flex items-center justify-center p-2 rounded-lg bg-zinc-50 border border-zinc-200" onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}>
+              {isMobileFilterOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            </button>
+          </div>
+          
+          <div className={`${isMobileFilterOpen ? 'block' : 'hidden'} md:block transition-all duration-300`}>
+            <div className="space-y-1">
+              <button 
+                onClick={() => { setActiveCategory("All"); setCurrentPage(1); setIsMobileFilterOpen(false); }}
               className={`w-full flex items-center justify-between text-sm font-medium px-4 py-3 rounded-xl transition ${activeCategory === "All" ? "bg-zinc-100 text-zinc-900" : "text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900"}`}
             >
               <span className="flex items-center gap-3"><LayoutGrid className="w-4 h-4" /> Semua Produk</span>
               <span className="bg-zinc-900 text-white text-[10px] px-2 py-0.5 rounded-full">{productsData.length}</span>
             </button>
             <button 
-              onClick={() => { setActiveCategory("Office Laptop"); setCurrentPage(1); }}
+              onClick={() => { setActiveCategory("Office Laptop"); setCurrentPage(1); setIsMobileFilterOpen(false); }}
               className={`w-full flex items-center justify-between text-sm font-medium px-4 py-3 rounded-xl transition ${activeCategory === "Office Laptop" ? "bg-zinc-100 text-zinc-900" : "text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900"}`}
             >
               <span className="flex items-center gap-3"><Laptop className="w-4 h-4" /> Laptop Kantor</span>
               <span className="bg-zinc-200 text-zinc-600 text-[10px] px-2 py-0.5 rounded-full">{productsData.filter(p => p.category === "Office Laptop").length}</span>
             </button>
             <button 
-              onClick={() => { setActiveCategory("Gaming Laptop"); setCurrentPage(1); }}
+              onClick={() => { setActiveCategory("Gaming Laptop"); setCurrentPage(1); setIsMobileFilterOpen(false); }}
               className={`w-full flex items-center justify-between text-sm font-medium px-4 py-3 rounded-xl transition ${activeCategory === "Gaming Laptop" ? "bg-zinc-100 text-zinc-900" : "text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900"}`}
             >
               <span className="flex items-center gap-3"><Mouse className="w-4 h-4" /> Laptop Gaming</span>
               <span className="bg-zinc-200 text-zinc-600 text-[10px] px-2 py-0.5 rounded-full">{productsData.filter(p => p.category === "Gaming Laptop").length}</span>
             </button>
             <button 
-              onClick={() => { setActiveCategory("Aksesoris"); setCurrentPage(1); }}
+              onClick={() => { setActiveCategory("Aksesoris"); setCurrentPage(1); setIsMobileFilterOpen(false); }}
               className={`w-full flex items-center justify-between text-sm font-medium px-4 py-3 rounded-xl transition ${activeCategory === "Aksesoris" ? "bg-zinc-100 text-zinc-900" : "text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900"}`}
             >
               <span className="flex items-center gap-3"><HardDrive className="w-4 h-4" /> Aksesoris</span>
@@ -202,23 +216,24 @@ export default function Home() {
 
           <div className="mt-8 space-y-1">
             <button 
-              onClick={() => { setActiveFilter(activeFilter === "Produk Baru" ? "Semua" : "Produk Baru"); setCurrentPage(1); }}
+              onClick={() => { setActiveFilter(activeFilter === "Produk Baru" ? "Semua" : "Produk Baru"); setCurrentPage(1); setIsMobileFilterOpen(false); }}
               className={`w-full flex items-center gap-3 text-sm px-4 py-3 rounded-xl transition ${activeFilter === "Produk Baru" ? "bg-zinc-100 text-zinc-900 font-semibold" : "text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900 font-medium"}`}
             >
               <Star className="w-4 h-4" /> Produk Baru
             </button>
             <button 
-              onClick={() => { setActiveFilter(activeFilter === "Terlaris" ? "Semua" : "Terlaris"); setCurrentPage(1); }}
+              onClick={() => { setActiveFilter(activeFilter === "Terlaris" ? "Semua" : "Terlaris"); setCurrentPage(1); setIsMobileFilterOpen(false); }}
               className={`w-full flex items-center gap-3 text-sm px-4 py-3 rounded-xl transition ${activeFilter === "Terlaris" ? "bg-zinc-100 text-zinc-900 font-semibold" : "text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900 font-medium"}`}
             >
               <Tag className="w-4 h-4" /> Terlaris
             </button>
             <button 
-              onClick={() => { setActiveFilter(activeFilter === "Sedang Diskon" ? "Semua" : "Sedang Diskon"); setCurrentPage(1); }}
+              onClick={() => { setActiveFilter(activeFilter === "Sedang Diskon" ? "Semua" : "Sedang Diskon"); setCurrentPage(1); setIsMobileFilterOpen(false); }}
               className={`w-full flex items-center gap-3 text-sm px-4 py-3 rounded-xl transition ${activeFilter === "Sedang Diskon" ? "bg-red-50 text-red-600 font-semibold" : "text-zinc-500 hover:bg-zinc-50 hover:text-red-500 font-medium"}`}
             >
               <Percent className="w-4 h-4" /> Sedang Diskon
             </button>
+          </div>
           </div>
         </aside>
 
@@ -348,12 +363,20 @@ export default function Home() {
           
           {/* Social Media Column */}
           <div>
-            <p className="font-bold mb-6 text-sm text-zinc-400 md:text-right">Media Sosial</p>
-            <div className="flex gap-3">
-              <a href="https://www.instagram.com/altitude.comp/" target="_blank" className="px-4 py-2 bg-[#242424] text-white rounded-full flex items-center justify-center hover:bg-black transition font-bold text-sm">Instagram</a>
-              <a href="https://www.threads.com/@altitude.comp" target="_blank" className="px-4 py-2 bg-[#242424] text-white rounded-full flex items-center justify-center hover:bg-black transition font-bold text-sm">Thread</a>
-              <a href="https://www.tokopedia.com/altitudecomp" target="_blank" className="px-4 py-2 bg-[#242424] text-white rounded-full flex items-center justify-center hover:bg-black transition font-bold text-sm">Tokopedia</a>
-              <a href="https://s.shopee.co.id/9pT3uXcYgj" target="_blank" className="px-4 py-2 bg-[#242424] text-white rounded-full flex items-center justify-center hover:bg-black transition font-bold text-sm">Shopee</a>
+            <p className="font-bold mb-4 text-sm text-zinc-400 md:text-right">Media Sosial</p>
+            <div className="flex gap-3 justify-start md:justify-end">
+              <a href="https://www.instagram.com/altitude.comp/" target="_blank" className="w-10 h-10 bg-[#242424] text-white rounded-full flex items-center justify-center hover:bg-black transition" title="Instagram">
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a href="https://www.threads.com/@altitude.comp" target="_blank" className="w-10 h-10 bg-[#242424] text-white rounded-full flex items-center justify-center hover:bg-black transition" title="Threads">
+                <AtSign className="w-5 h-5" />
+              </a>
+              <a href="https://www.tokopedia.com/altitudecomp" target="_blank" className="w-10 h-10 bg-[#242424] text-white rounded-full flex items-center justify-center hover:bg-black transition" title="Tokopedia">
+                <Store className="w-5 h-5" />
+              </a>
+              <a href="https://s.shopee.co.id/9pT3uXcYgj" target="_blank" className="w-10 h-10 bg-[#242424] text-white rounded-full flex items-center justify-center hover:bg-black transition" title="Shopee">
+                <ShoppingBag className="w-5 h-5" />
+              </a>
             </div>
           </div>
         </div>
@@ -423,6 +446,30 @@ export default function Home() {
                 </button>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* MOBILE MENU DRAWER */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[100] flex justify-start">
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)} />
+          <div className="relative w-full max-w-[280px] bg-white h-full shadow-2xl flex flex-col animate-in slide-in-from-left duration-300">
+            <div className="p-6 border-b border-zinc-100 flex items-center justify-between">
+              <div className="font-bold text-xl tracking-tighter flex items-center gap-2">
+                <Image src="/logo-altitude-comp.jpeg" alt="Altitude Comp" width={80} height={24} className="rounded-sm object-contain" />
+              </div>
+              <button autoFocus onClick={() => setIsMobileMenuOpen(false)} className="w-8 h-8 flex items-center justify-center bg-zinc-100 hover:bg-zinc-200 rounded-full text-zinc-500 transition-colors">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <nav className="flex flex-col p-6 gap-6 text-base font-semibold text-zinc-600">
+              <Link href="/brands" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-black transition">Merek</Link>
+              <Link href="/shop" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-black transition">Beli</Link>
+              <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-black transition">Blog</Link>
+              <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-black transition">Tentang Kami</Link>
+              <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-black transition">Hubungi</Link>
+            </nav>
           </div>
         </div>
       )}

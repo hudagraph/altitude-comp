@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, ShoppingBag, X } from "lucide-react";
+import { ArrowLeft, ShoppingBag, X, Menu } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import productsData from "@/data/products.json";
 import { useCart } from "@/context/CartContext";
@@ -12,6 +12,7 @@ export default function ShopPage() {
   const { cartItems, removeFromCart } = useCart();
   const cartCount = cartItems.length;
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   return (
     <main className="min-h-screen bg-white text-zinc-900 flex flex-col font-sans">
       <header className="w-full bg-white px-6 py-6 border-b border-zinc-100 flex items-center justify-between sticky top-0 z-50">
@@ -20,11 +21,16 @@ export default function ShopPage() {
             <ArrowLeft className="w-5 h-5 text-zinc-600" />
           </Link>
           <div className="font-bold text-xl tracking-tighter flex items-center gap-2">
-            <Image src="/logo-altitude-comp.jpeg" alt="Altitude Comp" width={28} height={28} className="rounded-sm object-cover" />
-            <h1 className="text-2xl font-bold ml-2">Semua Produk</h1>
+            <Image src="/logo-altitude-comp.jpeg" alt="Altitude Comp" width={80} height={24} className="rounded-sm object-contain" />
           </div>
         </div>
         <div className="flex gap-4 items-center">
+          <button 
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="flex items-center justify-center p-2 rounded-full hover:bg-zinc-50 transition"
+          >
+            <Menu className="w-5 h-5 text-zinc-700 hover:text-black transition" />
+          </button>
           
           <button 
             onClick={() => setIsCartOpen(true)}
@@ -103,6 +109,30 @@ export default function ShopPage() {
                  </button>
                </div>
              )}
+          </div>
+        </div>
+      )}
+
+      {/* MOBILE MENU DRAWER */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[100] flex justify-start">
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)} />
+          <div className="relative w-full max-w-[280px] bg-white h-full shadow-2xl flex flex-col animate-in slide-in-from-left duration-300">
+            <div className="p-6 border-b border-zinc-100 flex items-center justify-between">
+              <div className="font-bold text-xl tracking-tighter flex items-center gap-2">
+                <Image src="/logo-altitude-comp.jpeg" alt="Altitude Comp" width={80} height={24} className="rounded-sm object-contain" />
+              </div>
+              <button autoFocus onClick={() => setIsMobileMenuOpen(false)} className="w-8 h-8 flex items-center justify-center bg-zinc-100 hover:bg-zinc-200 rounded-full text-zinc-500 transition-colors">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <nav className="flex flex-col p-6 gap-6 text-base font-semibold text-zinc-600">
+              <Link href="/brands" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-black transition">Merek</Link>
+              <Link href="/shop" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-black transition">Beli</Link>
+              <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-black transition">Blog</Link>
+              <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-black transition">Tentang Kami</Link>
+              <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-black transition">Hubungi</Link>
+            </nav>
           </div>
         </div>
       )}
