@@ -1,0 +1,107 @@
+[
+  {
+    "id": "1",
+    "name": "Acer Aspire A315-35",
+    "slug": "acer-aspire-a315-35",
+    "price": 2900000,
+    "discountPercentage": 15,
+    "category": "Office Laptop",
+    "image": "/Acer Aspire A315-35.jpeg",
+    "badge": "Promo",
+    "specs": {
+      "processor": "Intel Celeron N5100",
+      "ram": "8GB DDR4",
+      "storage": "SSD 256GB PCIe",
+      "vga": "Intel UHD Graphics",
+      "screen": "15.6” FHD",
+      "features": ["Keyboard Nyala", "Batre Normal", "Windows & Office Original"]
+    }
+  },
+  {
+    "id": "2",
+    "name": "Asus X415 dap",
+    "slug": "asus-x415-dap",
+    "price": 3700000,
+    "category": "Office Laptop",
+    "image": "/Asus X415 Dap.jpeg",
+    "badge": null,
+    "specs": {
+      "processor": "Ryzen 3 3250U",
+      "ram": "8GB DDR4",
+      "storage": "SSD 512GB NVMe",
+      "vga": "Radeon Graphics",
+      "screen": "14” FHD",
+      "features": ["Keyboard Nyala", "Batre Normal", "Windows & Office Original"]
+    }
+  },
+  {
+    "id": "3",
+    "name": "Dell Precision M4800",
+    "slug": "dell-precision-m4800",
+    "price": 3200000,
+    "discountPercentage": 10,
+    "category": "Office Laptop",
+    "image": "/Dell Precision M4800.jpeg",
+    "badge": "Diskon",
+    "specs": {
+      "processor": "Intel Core i7-4810MQ",
+      "ram": "20GB DDR3L",
+      "storage": "SSD 256GB PCIe & HDD 500GB",
+      "vga": "Intel HD Graphics & Nvidia Quadro K1100M",
+      "screen": "15.6” FHD UltraSharp",
+      "features": ["Keyboard Nyala", "Body Tangguh", "Batre Normal", "Cocok untuk Render", "Windows & Office Original"]
+    }
+  },
+  {
+    "id": "4",
+    "name": "Asus TUF Gaming FX507ZC",
+    "slug": "asus-tuff-gaming-fx507zc",
+    "price": 10700000,
+    "category": "Gaming Laptop",
+    "image": "/Asus Tuff Gaming.jpeg",
+    "badge": "Gaming",
+    "specs": {
+      "processor": "Intel Core i7-12700H",
+      "ram": "16GB DDR5",
+      "storage": "SSD 512GB",
+      "vga": "Intel Iris Xe Graphics & RTX 3050 Ti 4GB",
+      "screen": "15.6” FHD 144Hz",
+      "features": ["RGB Keyboard", "Batre Normal", "Windows & Office Original"]
+    }
+  },
+  {
+    "id": "5",
+    "name": "Razer Blade 15 Base",
+    "slug": "razer-blade-15-base",
+    "price": 13000000,
+    "category": "Gaming Laptop",
+    "image": "/Razer Blade 15 Base.jpeg",
+    "badge": "Premium",
+    "specs": {
+      "processor": "Intel Core i7-10750H",
+      "ram": "16GB DDR4",
+      "storage": "SSD 512GB NVMe",
+      "vga": "Intel UHD Graphics & RTX 2060 6GB",
+      "screen": "15.6” FHD 144Hz",
+      "features": ["Fullset Dus", "Chroma RGB", "Body Metal Premium", "Windows & Office Original"]
+    }
+  },
+  {
+    "id": "6",
+    "name": "Dell Alienware M15 R4",
+    "slug": "dell-alienware-m15-r4",
+    "price": 13000000,
+    "discountPercentage": 20,
+    "category": "Gaming Laptop",
+    "image": "/Dell Alienware M15 R4.jpeg",
+    "badge": "Promo",
+    "specs": {
+      "processor": "Intel Core i7-10870H",
+      "ram": "16GB DDR4",
+      "storage": "SSD 512GB M.2",
+      "vga": "RTX 3070 6GB",
+      "screen": "15.6” FHD 300Hz",
+      "features": ["AlienFX Lighting", "Vapor Chamber", "Windows & Office Original"]
+    }
+  }
+]
